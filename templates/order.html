@@ -1,0 +1,224 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Order | Mbokodo Butchery</title>
+    <style>
+        /* --- GLOBAL STYLES (Syncing with Home) --- */
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: radial-gradient(circle, #2c2c2c 0%, #000000 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- SILK NAVBAR --- */
+        .navbar {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(15px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 60px;
+            border-bottom: 1px solid rgba(230, 57, 70, 0.3);
+            position: sticky;
+            top: 0; z-index: 1000;
+        }
+        .nav-brand { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+        .logo-img { height: 60px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.2); }
+        .nav-logo-text { font-size: 1.6rem; font-weight: 800; color: #e63946; text-transform: uppercase; letter-spacing: 2px; }
+
+        .nav-links { list-style: none; display: flex; margin: 0; padding: 0; }
+        .nav-links li { margin-left: 30px; }
+        .nav-links a { text-decoration: none; color: #f1faee; font-weight: 500; font-size: 0.9rem; text-transform: uppercase; transition: 0.3s; }
+        .nav-links a:hover { color: #e63946; }
+
+        /* --- ORDER FORM CONTENT --- */
+        .content-wrapper { flex: 1; padding: 60px 20px; }
+        .order-container { max-width: 700px; margin: 0 auto; }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+        }
+
+        .form-group { margin-bottom: 25px; }
+        label { display: block; margin-bottom: 8px; color: #e63946; font-weight: bold; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; }
+
+        input, select {
+            width: 100%;
+            padding: 14px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .btn-order {
+            background: #e63946;
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 12px;
+            font-weight: 800;
+            width: 100%;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+        .btn-order:hover { background: #b91d2a; transform: translateY(-3px); }
+
+        /* --- CRYSTAL FOOTER --- */
+        .footer {
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(15px);
+            border-top: 1px solid rgba(230, 57, 70, 0.3);
+            padding: 80px 20px 20px;
+            margin-top: 100px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section h4 {
+            color: #fff;
+            border-left: 3px solid #e63946;
+            padding-left: 15px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            font-size: 1rem;
+        }
+
+        .footer-section p {
+            color: #aaa;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            margin: 10px 0;
+        }
+
+        .social-link { color: #1877F2 !important; font-weight: bold; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="{% url 'home' %}" class="nav-brand">
+            <img src="{% static 'images/logo.jpg' %}" alt="Mbokodo Logo" class="logo-img">
+            <div class="nav-logo-text">Mbokodo</div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'products' %}">Products</a></li>
+            <li><a href="{% url 'contact' %}">Contact Us</a></li>
+            <li><a href="{% url 'order' %}">Orders</a></li>
+        </ul>
+    </nav>
+
+    <div class="content-wrapper">
+        <div class="order-container">
+            <h1 style="text-align: center; font-size: 3rem; margin-bottom: 10px; font-weight: 900;">Place Your Order</h1>
+            <p style="text-align: center; color: #e63946; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 40px;">Fresh From Circle Y Abattoir</p>
+
+            <div class="glass-card">
+                {% if success %}
+                <div style="background: rgba(37, 211, 102, 0.15); border: 1px solid #25d366; padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 30px;">
+                    <h2 style="color: #25d366; margin-top: 0;">✔ Order Successful!</h2>
+                    <p>Total Estimated Price: <span style="font-size: 1.5rem; font-weight: bold;">{{ total|stringformat:".2f" }}</span></p>
+                    <p style="font-size: 0.9rem; opacity: 0.8;">We will confirm your order via phone shortly.</p>
+                </div>
+                {% endif %}
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>Your Full Name</label>
+                        <input type="text" name="name" required placeholder="Full Name">
+                    </div>
+
+                    <div class="form-group">
+                        <label>WhatsApp / Phone Number</label>
+                        <input type="text" name="phone" required placeholder="07...">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Select Meat Cut</label>
+                        <select name="product" required>
+                            <option value="">-- Choose a Cut --</option>
+                            {% for p in products %}
+                                <option value="{{ p.id }}">{{ p.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label>Quantity (KG)</label>
+                            <input type="number" name="quantity" step="0.1" min="0.5" required value="1.0">
+                        </div>
+                        <div class="form-group">
+                            <label>Currency</label>
+                            <select name="currency">
+                                <option value="USD">USD ($)</option>
+                                <option value="ZWL">ZWL</option>
+                                <option value="RAND">RAND (R)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-order">Confirm Order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Our Identity</h4>
+                <p><strong>Mbokodo Butchery & Circle Y Abattoir</strong></p>
+                <p>Providing A-Grade, farm-fresh meat directly from our abattoir to Bulawayo's tables, and beyond.</p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <p><a href="{% url 'home' %}" style="color:#aaa; text-decoration:none;">Home</a></p>
+                <p><a href="{% url 'products' %}" style="color:#aaa; text-decoration:none;">Products</a></p>
+                <p><a href="{% url 'contact' %}" style="color:#aaa; text-decoration:none;">Contact Us</a></p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Get In Touch</h4>
+                <p>📍 14 km peg, Plumtree Road, Bulawayo</p>
+                <p>📞 071 288 1748</p>
+                <p><a href="https://www.facebook.com/mbokodobutcher/" target="_blank" class="social-link">🔵 Facebook: @mbokodobutcher</a></p>
+            </div>
+        </div>
+        <div
+                 style="text-align: center; margin-top: 50px; color: #444; font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
+            © 2026 Mbokodo Butchery. Quality You Can Trust.
+        </div>
+
+        <div style="flex: 1; text-align: right; font-style: italic; opacity: 0.7;">
+        Design by Collen: +263 713 043 879
+    </div>
+        </footer>
+
+</body>
+</html>

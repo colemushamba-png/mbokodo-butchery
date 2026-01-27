@@ -1,0 +1,361 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Products | Mbokodo Butchery</title>
+
+    <style>
+        /* --- GLOBAL THEME --- */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: radial-gradient(circle, #2c2c2c 0%, #000000 100%);
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(15px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 60px;
+            border-bottom: 1px solid rgba(230, 57, 70, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 60px;
+            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-logo-text {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #e63946;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #f1faee;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #e63946;
+        }
+
+        /* --- PAGE HEADER --- */
+        .container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .page-subtitle {
+            color: #e63946;
+            letter-spacing: 5px;
+            margin-bottom: 50px;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        /* --- PRODUCT GRID --- */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        /* --- PRODUCT CARD --- */
+        .product-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: left;
+            transition: 0.4s ease;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border: 1px solid #e63946;
+            background: rgba(230, 57, 70, 0.08);
+        }
+
+        /* --- PRODUCT IMAGES (STATIC + EXTERNAL) --- */
+        .product-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+            filter: brightness(1.05) contrast(1.1);
+            border-bottom: 2px solid rgba(230, 57, 70, 0.5);
+            transition: 0.3s ease;
+        }
+
+        .product-card:hover .product-img {
+            filter: brightness(1.2) contrast(1.15);
+        }
+
+        .product-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 15px 0 5px;
+            text-transform: uppercase;
+        }
+
+        .product-price {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #e63946;
+            margin-bottom: 15px;
+        }
+
+        .btn-buy {
+            display: block;
+            text-align: center;
+            background: #e63946;
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .btn-buy:hover {
+            background: white;
+            color: #e63946;
+        }
+
+        /* --- FOOTER --- */
+        .footer {
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(15px);
+            border-top: 1px solid rgba(230, 57, 70, 0.3);
+            padding: 80px 20px 30px;
+            margin-top: 100px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section h4 {
+            border-left: 3px solid #e63946;
+            padding-left: 15px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .footer-section p,
+        .footer-section li {
+            font-size: 0.9rem;
+            color: #aaa;
+            line-height: 1.8;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: #e63946;
+        }
+
+        .map-frame {
+            border-radius: 15px;
+            overflow: hidden;
+            height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <a href="/" class="nav-brand">
+        <img src="{% static 'images/logo.jpg' %}" class="logo-img" alt="Mbokodo Logo">
+        <span class="nav-logo-text">Mbokodo</span>
+    </a>
+    <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/products">Products</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/orders">Orders</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+    <h1 class="page-title">Bulk & Specialty Cuts</h1>
+    <p class="page-subtitle">Direct From Circle Y Abattoir</p>
+
+    <div class="product-grid">
+
+        <div class="product-card">
+            <img src="{% static 'images/forequarter.jpg' %}" class="product-img" alt="Forequarter">
+            <h3 class="product-name">Forequarter</h3>
+            <p class="product-price">Contact for Price</p>
+            <a href="https://wa.me/263712881748?text=Enquiry%20on%20Forequarter" class="btn-buy">Inquire via WA</a>
+        </div>
+
+        <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1588168333986-5078d3ae3976?q=80&w=800" class="product-img" alt="Hindquarter">
+            <h3 class="product-name">Hindquarter</h3>
+            <p class="product-price">Contact for Price</p>
+            <a href="https://wa.me/263712881748?text=Enquiry%20on%20Hindquarter" class="btn-buy">Inquire via WA</a>
+        </div>
+
+        <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1551028150-64b9f398f678?q=80&w=800" class="product-img" alt="Super Beef">
+            <h3 class="product-name">Commercial</h3>
+            <p class="product-price">Market Rates</p>
+            <a href="https://wa.me/263712881748?text=Super%20Beef%20Rates" class="btn-buy">Check Rates</a>
+        </div>
+
+        <div class="product-card">
+            <img src="{% static 'images/Tripe.jpg' %}" class="product-img" alt="Tripe">
+            <h3 class="product-name">Amalusu (Tripe)</h3>
+            <p class="product-price">Fresh Daily</p>
+            <a href="https://wa.me/263712881748?text=Order%20Amalusu" class="btn-buy">Order via WA</a>
+        </div>
+
+        <div class="product-card">
+            <img src="{% static 'images/super.jpg' %}" class="product-img" alt="super">
+            <h3 class="product-name">super</h3>
+            <p class="product-price">Bulk Available</p>
+            <a href="https://wa.me/263712881748?text=Heads%20and%20Hooves" class="btn-buy">Order via WA</a>
+        </div>
+
+        <div class="product-card">
+            <img src="{% static 'images/Economy.jpg' %}" class="product-img" alt="Economy">
+            <h3 class="product-name">Economy</h3>
+            <p class="product-price">Bulk Available</p>
+            <a href="https://wa.me/263712881748?text=Heads%20and%20Hooves" class="btn-buy">Order via WA</a>
+        </div>
+
+    </div>
+</div>
+
+<footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Our Identity</h4>
+                <p><strong>Mbokodo Butchery & Circle Y Abattoir</strong></p>
+                <p>Providing A-Grade, farm-fresh meat directly from our abattoir to Bulawayo's tables, and beyond.</p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Navigation</h4>
+                <ul class="footer-links">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'products' %}">Products</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                    <li><a href="{% url 'order' %}">Orders</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Get In Touch</h4>
+                <p>📍 14 km peg, Plumtree Road, Bulawayo, Zimbabwe</p>
+                <p>📞 071 288 1748</p>
+                <p>✉️ accts1@abottyfarming.co.zw</p>
+                <p>
+                   <a href="https://www.facebook.com/mbokodobutcher/" target="_blank" class="social-link">
+                    🔵 Facebook: @mbokodobutcher
+                   </a>
+                </p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Find Us</h4>
+                <div class="map-frame">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119434.33128148386!2d28.50033107050965!3d-20.203875323928174!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1eb5538965f3f019%3A0xc331778c18255b1b!2sMbokodo%20Butchery!5e0!3m2!1sen!2szw!4v1716300000000!5m2!1sen!2szw"
+                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 50px; color: #444; font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
+            © 2026 Mbokodo Butchery. Quality You Can Trust.
+        </div>
+        <div style="flex: 1; text-align: right; font-style: italic; opacity: 0.7;">
+        Design by Collen: +263 713 043 879
+    </div>
+    </footer>
+
+    <a href="https://wa.me/263712881748" class="whatsapp-float" target="_blank">
+        <span>💬</span>
+    </a>
+
+    <script>
+        /* Note: these can be changed to use {% static 'images/filename.jpg' %} for local images */
+        const data = [
+            { img: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200", msg: "Superior Braai Selection" },
+            { img: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?q=80&w=1200", msg: "A-Grade Beef Cuts" },
+            { img: "https://images.unsplash.com/photo-1551028150-64b9f398f678?q=80&w=1200", msg: "Fresh From Circle Y Abattoir" }
+        ];
+
+        let index = 0;
+        const imgElement = document.getElementById('slide-img');
+        const msgElement = document.getElementById('slide-msg');
+
+        function rotate() {
+            imgElement.style.opacity = 0;
+            setTimeout(() => {
+                imgElement.src = data[index].img;
+                msgElement.innerText = data[index].msg;
+                imgElement.style.opacity = 1;
+                index = (index + 1) % data.length;
+            }, 800);
+        }
+        setInterval(rotate, 5000);
+        window.onload = rotate;
+    </script>
+</body>
+</html>
