@@ -3,7 +3,12 @@ from .models import Enquiry, Product, Order
 
 
 def home(request):
-    return render(request, 'index.html')
+    try:
+        products = Product.objects.all()
+    except:
+        products = []
+    return render(request, 'index.html', {'products': products})
+
 
 
 def products_page(request):
